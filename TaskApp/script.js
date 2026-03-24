@@ -71,12 +71,17 @@ const elements = {
 
 let currentAlarmTaskId = null;
 let alarmInterval = null;
-let isBusySaving = false; // Prevents double-clicking and race conditions
 
 let pressTimer = null;
 let isLongPress = false;
 let startX = 0;
 let startY = 0;
+let lastTapId = null;
+let lastTapTime = 0;
+
+function safeStr(val) {
+    return val !== null && val !== undefined ? String(val) : '';
+}
 
 function init() {
     // 💥 FACTORY RESET LOGIC 💥
