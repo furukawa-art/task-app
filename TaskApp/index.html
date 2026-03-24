@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Task App</title>
+    <meta name="description" content="Modern Task Management">
+    
+    <!-- PWA / App Icon Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="rgb(21, 223, 73)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Task App">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar: Subjects -->
+        <aside class="sidebar">
+            <button class="add-subject-btn" id="btn-show-add-subject" title="件名を追加">+</button>
+            <button class="delete-subject-btn" id="btn-delete-subject" title="選択中の件名を削除" disabled>ー</button>
+            <div class="subject-list" id="subject-list">
+                <!-- Subjects will be rendered here -->
+            </div>
+        </aside>
+
+        <!-- Main Content: Tasks -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-title-container">
+                    <h2 id="current-subject-title">件名を選択してください</h2>
+                </div>
+                <button class="add-task-btn" id="btn-show-add-task" disabled title="タスクを追加">+</button>
+            </header>
+            <div class="task-list" id="task-list">
+                <!-- Tasks will be rendered here -->
+                <div class="empty-state" id="empty-state-msg">
+                    左のタブから件名を選択するか、新しく件名を追加してください。
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals Overlay -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+
+    <!-- Add/Edit Subject Modal -->
+    <div class="modal" id="modal-subject">
+        <div class="modal-header">
+            <h3 id="modal-subject-title">新しい件名</h3>
+            <button class="close-btn" data-modal="modal-subject">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="input-subject-id">
+            <input type="text" id="input-subject-name" placeholder="件名を入力 (例: 仕事)" maxlength="20">
+            <button class="primary-btn" id="btn-save-subject">保存する</button>
+        </div>
+    </div>
+
+    <!-- Add/Edit Task Modal -->
+    <div class="modal" id="modal-task">
+        <div class="modal-header">
+            <h3 id="modal-task-title">新しいタスク</h3>
+            <button class="close-btn" data-modal="modal-task">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="input-task-id">
+            <input type="text" id="input-task-name" placeholder="タスクを入力" maxlength="100">
+            <button class="primary-btn" id="btn-save-task">保存する</button>
+        </div>
+    </div>
+
+    <!-- Alarm Modal -->
+    <div class="modal" id="modal-alarm">
+        <div class="modal-header">
+            <h3>アラーム設定</h3>
+            <button class="close-btn" data-modal="modal-alarm">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p id="alarm-task-name-display" class="task-name-display"></p>
+            <div class="datetime-inputs">
+                <div class="input-group">
+                    <label>月</label>
+                    <input type="number" id="input-alarm-month" min="1" max="12" placeholder="MM">
+                </div>
+                <div class="input-group">
+                    <label>日</label>
+                    <input type="number" id="input-alarm-day" min="1" max="31" placeholder="DD">
+                </div>
+                <div class="input-group">
+                    <label>時</label>
+                    <input type="number" id="input-alarm-hour" min="0" max="23" placeholder="HH">
+                </div>
+                <div class="input-group">
+                    <label>分</label>
+                    <input type="number" id="input-alarm-minute" min="0" max="59" placeholder="mm">
+                </div>
+            </div>
+            <button class="primary-btn" id="btn-set-alarm">設定する</button>
+            <button class="danger-btn" id="btn-clear-alarm" style="margin-top: 10px; display: none;">アラームを解除</button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "Task App",
+  "short_name": "Task App",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "./?v=new",
+  "display": "standalone",
+  "background_color": "#15DF49",
+  "theme_color": "#15DF49"
+}
