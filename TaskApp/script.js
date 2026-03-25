@@ -285,13 +285,15 @@ function saveTask(text, id) {
     renderSubjects(); // Immediate feedback
 }
 
-function toggleTaskComplete(subjectId, taskId) {
+function deleteTask(subjectId, taskId) {
     const taskList = state.tasks[subjectId] || [];
-    const task = taskList.find(t => t.id === taskId);
-    if (task) {
-        task.isDone = !task.isDone;
-        saveGlobalState();
-        renderSubjects(); // Immediate feedback
+    const idx = taskList.findIndex(t => safeStr(t.id) === safeStr(taskId));
+    if (idx !== -1) {
+        if (confirm('このタスクを削除しますか？')) {
+            taskList.splice(idx, 1);
+            saveGlobalState();
+            renderSubjects();
+        }
     }
 }
 
@@ -358,7 +360,7 @@ elements.subjectList.onclick = (e) => {
 elements.taskList.onclick = (e) => {
     // 1. Check for action buttons first
     const btnComp = e.target.closest('.btn-complete');
-    if (btnComp) { toggleTaskComplete(btnComp.dataset.subject, btnComp.dataset.id); return; }
+    if (btnComp) { deleteTask(btnComp.dataset.subject, btnComp.dataset.id); return; }
     
     const btnAlarm = e.target.closest('.btn-alarm');
     if (btnAlarm) { openAlarmModal(btnAlarm.dataset.subject, btnAlarm.dataset.id); return; }
@@ -443,7 +445,7 @@ function renderTasks() {
                 </div>
                 <div class="task-actions">
                     <button class="action-btn btn-alarm" data-id="${tid}" data-subject="${safeStr(state.activeSubjectId)}" title="アラーム設定">T</button>
-                    <button class="action-btn btn-complete" data-id="${tid}" data-subject="${safeStr(state.activeSubjectId)}" title="完了/未完了">—</button>
+                    <button class="action-btn btn-complete" data-id="${tid}" data-subject="${safeStr(state.activeSubjectId)}" title="削除">—</button>
                 </div>
             `;
             
